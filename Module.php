@@ -6,4 +6,4 @@
  * Time: 08:56
  */
 
-require_once __DIR__ . '/src/TSS/Auth/Module.php';
+require_once __DIR__ . '/src/TSS/Authentication/Module.php';

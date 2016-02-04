@@ -6,26 +6,26 @@
  * Time: 14:08
  */
 
-namespace TSS\Auth;
+namespace TSS\Authentication;
 
 return array(
     'controllers' => array(
         'invokables' => array(
-            'TSS\Auth\Controller\Account' => Controller\AccountController::class,
-            'TSS\Auth\Controller\Auth' => Controller\AuthController::class,
+            'TSS\Authentication\Controller\Account' => Controller\AccountController::class,
+            'TSS\Authentication\Controller\Auth' => Controller\AuthController::class,
         ),
     ),
 
     'doctrine' => array(
         'driver' => array(
-            'tss_auth_entities' => array(
+            'tss_authentication_entities' => array(
                 'class' => 'Doctrine\ORM\Mapping\Driver\AnnotationDriver',
                 'cache' => 'array',
-                'paths' => array(__DIR__ . '/../src/TSS/Auth/Entity'),
+                'paths' => array(__DIR__ . '/../src/TSS/Authentication/Entity'),
             ),
             'orm_default' => array(
                 'drivers' => array(
-                    'TSS\Auth' => 'tss_auth_entities',
+                    'TSS\Authentication' => 'tss_authentication_entities',
                 ),
             ),
         ),
@@ -33,12 +33,12 @@ return array(
 
     'router' => array(
         'routes' => array(
-            'tssAuth' => array(
+            'tssAuthentication' => array(
                 'type' => 'literal',
                 'options' => array(
                     'route' => '/auth',
                     'defaults' => array(
-                        'controller' => 'TSS\Auth\Controller\Auth',
+                        'controller' => 'TSS\Authentication\Controller\Auth',
                         'action' => 'index',
                     ),
                 ),
@@ -77,7 +77,7 @@ return array(
                                 'id'     => '[0-9]+',
                             ),
                             'defaults' => array(
-                                '__NAMESPACE__' => 'TSS\Auth\Controller',
+                                '__NAMESPACE__' => 'TSS\Authentication\Controller',
                                 'action' => 'index',
                             ),
                         ),
@@ -126,19 +126,19 @@ return array(
         'factories' => array(
             'acl' => function ($sm) {
                 $config = $sm->get('config');
-                return new Permissions\Acl\Acl($config['tss']['auth']['acl']);
+                return new Permissions\Acl\Acl($config['tss']['authentication']['acl']);
             },
 
             'authentication.adapter' => function ($sm) {
                 $config = $sm->get('config');
                 $options = array(
                     'entityManager' => $sm->get('Doctrine\ORM\EntityManager'),
-                    'identityClass' => $config['tss']['auth']['config']['identityClass'],
-                    'identityProperty' => $config['tss']['auth']['config']['identityProperty'],
-                    'credentialClass' => $config['tss']['auth']['config']['credentialClass'],
-                    'credentialProperty' => $config['tss']['auth']['config']['credentialProperty'],
-                    'credentialIdentityProperty' => $config['tss']['auth']['config']['credentialIdentityProperty'],
-                    'credential_callable' => $config['tss']['auth']['config']['credential_callable'],
+                    'identityClass' => $config['tss']['authentication']['config']['identityClass'],
+                    'identityProperty' => $config['tss']['authentication']['config']['identityProperty'],
+                    'credentialClass' => $config['tss']['authentication']['config']['credentialClass'],
+                    'credentialProperty' => $config['tss']['authentication']['config']['credentialProperty'],
+                    'credentialIdentityProperty' => $config['tss']['authentication']['config']['credentialIdentityProperty'],
+                    'credential_callable' => $config['tss']['authentication']['config']['credential_callable'],
                 );
 
                 return new Authentication\Adapter\CredentialRepository($options);
@@ -148,7 +148,7 @@ return array(
                 $config = $sm->get('config');
                 $options = array(
                     'entityManager' => $sm->get('Doctrine\ORM\EntityManager'),
-                    'identityClass' => $config['tss']['auth']['config']['identityClass'],
+                    'identityClass' => $config['tss']['authentication']['config']['identityClass'],
                 );
 
                 return new Authentication\Storage\CredentialStorage($options);
@@ -169,7 +169,7 @@ return array(
 
     'view_manager' => array(
         'controller_map' => array(
-            'TSS\Auth' => true,
+            'TSS\Authentication' => true,
         ),
         'template_map' => array(),
         'template_path_stack' => array(
