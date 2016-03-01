@@ -187,7 +187,7 @@ class Module implements AutoloaderProviderInterface, DependencyIndicatorInterfac
             $flashMessenger->addErrorMessage(_('Please, sign in.'));
 
             $router = $e->getRouter();
-            $url = $router->assemble(array(), array('name' => $config['tss']['authentication']['routes']['signin']['name']));
+            $url = $router->assemble($matches->getParams(), array('name' => $config['tss']['authentication']['routes']['signin']['name']));
             $response = $e->getResponse();
             $response->getHeaders()->addHeaderLine('Location', $url);
             $response->setStatusCode(302);

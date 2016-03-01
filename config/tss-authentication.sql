@@ -56,7 +56,7 @@ DROP TABLE IF EXISTS `users`;
 CREATE TABLE IF NOT EXISTS `users` (
 	`id` int(11) NOT NULL AUTO_INCREMENT,
 	`role_id` int(11) NOT NULL,
-	`fisrt_name` varchar(255) COLLATE utf8_unicode_ci DEFAULT NULL,
+	`first_name` varchar(255) COLLATE utf8_unicode_ci DEFAULT NULL,
 	`last_name` varchar(255) COLLATE utf8_unicode_ci DEFAULT NULL,
 	`username` varchar(255) COLLATE utf8_unicode_ci DEFAULT NULL,
 	`email` varchar(255) COLLATE utf8_unicode_ci DEFAULT NULL,
@@ -79,7 +79,7 @@ CREATE TABLE IF NOT EXISTS `users` (
 
 -- Copiando dados para a tabela tss.users: ~0 rows (aproximadamente)
 /*!40000 ALTER TABLE `users` DISABLE KEYS */;
-INSERT INTO `users` (`id`, `role_id`, `fisrt_name`, `last_name`, `username`, `email`, `avatar`, `gender`, `birthday`, `bio`, `status`, `active`, `token`, `confirmed_email`, `created_at`, `updated_at`) VALUES
+INSERT INTO `users` (`id`, `role_id`, `first_name`, `last_name`, `username`, `email`, `avatar`, `gender`, `birthday`, `bio`, `status`, `active`, `token`, `confirmed_email`, `created_at`, `updated_at`) VALUES
 	(1, 1, 'Master', 'Root', 'admin', 'admin', NULL, NULL, NULL, NULL, 2, 1, NULL, 1, '2015-10-17 11:29:59', '2015-10-17 11:30:03');
 /*!40000 ALTER TABLE `users` ENABLE KEYS */;
 /*!40101 SET SQL_MODE=IFNULL(@OLD_SQL_MODE, '') */;
