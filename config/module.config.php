@@ -11,12 +11,9 @@ namespace TSS\Authentication;
 return array(
     'controllers' => array(
         'invokables' => array(
-
+            'TSS\Authentication\Controller\Account' => Controller\AccountController::class,
+            'TSS\Authentication\Controller\Auth' => Controller\AuthController::class,
         ),
-        'factories' => array(
-            'TSS\Authentication\Controller\Account' => Controller\Factory\AccountControllerFactory::class,
-            'TSS\Authentication\Controller\Auth' => Controller\Factory\AuthControllerFactory::class,
-        )
     ),
 
     'doctrine' => array(

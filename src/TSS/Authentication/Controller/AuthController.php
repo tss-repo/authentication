@@ -9,147 +9,49 @@
 namespace TSS\Authentication\Controller;
 
 
-use Doctrine\ORM\EntityManagerInterface;
 use TSS\Authentication\Entity\AbstractCredential;
+use TSS\Authentication\Entity\AbstractUser;
 use TSS\Authentication\Form\SigninForm;
 use TSS\Authentication\Form\SignupForm;
-use Zend\Authentication\AuthenticationServiceInterface;
-use Zend\I18n\Translator\TranslatorInterface;
 use Zend\Mvc\Controller\AbstractActionController;
 use Zend\View\Model\ViewModel;
 
 class AuthController extends AbstractActionController
 {
-    /**
-     * @var array
-     */
-    protected $config;
-
-    /**
-     * @var AuthenticationServiceInterface
-     */
-    protected $authentication;
-
-    /**
-     * @var TranslatorInterface
-     */
-    protected $translator;
-
-    /**
-     * @var EntityManagerInterface
-     */
-    protected $entityManager;
-
-    /**
-     * AuthController constructor.
-     * @param array $config
-     * @param AuthenticationServiceInterface $authentication
-     * @param TranslatorInterface $translator
-     * @param EntityManagerInterface $entityManager
-     */
-    public function __construct(array $config, AuthenticationServiceInterface $authentication, TranslatorInterface $translator, EntityManagerInterface $entityManager)
-    {
-        $this->config = $config;
-        $this->authentication = $authentication;
-        $this->translator = $translator;
-        $this->entityManager = $entityManager;
-    }
-
-    /**
-     * @return array
-     */
-    public function getConfig()
-    {
-        return $this->config;
-    }
-
-    /**
-     * @param array $config
-     */
-    public function setConfig($config)
-    {
-        $this->config = $config;
-    }
-
-    /**
-     * @return AuthenticationServiceInterface
-     */
-    public function getAuthentication()
-    {
-        return $this->authentication;
-    }
-
-    /**
-     * @param AuthenticationServiceInterface $authentication
-     */
-    public function setAuthentication($authentication)
-    {
-        $this->authentication = $authentication;
-    }
-
-    /**
-     * @return TranslatorInterface
-     */
-    public function getTranslator()
-    {
-        return $this->translator;
-    }
-
-    /**
-     * @param TranslatorInterface $translator
-     */
-    public function setTranslator($translator)
-    {
-        $this->translator = $translator;
-    }
-
-    /**
-     * @return EntityManagerInterface
-     */
-    public function getEntityManager()
-    {
-        return $this->entityManager;
-    }
-
-    /**
-     * @param EntityManagerInterface $entityManager
-     */
-    public function setEntityManager($entityManager)
-    {
-        $this->entityManager = $entityManager;
-    }
-
     public function signinAction()
     {
+        $config = $this->getServiceLocator()->get('config');
 
         if ($this->identity()) {
-            return $this->redirect()->toRoute($this->config['tss']['authentication']['routes']['redirect']['name']);
+            return $this->redirect()->toRoute($config['tss']['authentication']['routes']['redirect']['name']);
         }
 
         $form = new SigninForm();
-        $form->setAttribute('action', $this->url()->fromRoute($this->config['tss']['authentication']['routes']['authenticate']['name']));
+        $form->setAttribute('action', $this->url()->fromRoute($config['tss']['authentication']['routes']['authenticate']['name']));
         $form->prepare();
 
         $viewModel = new ViewModel(array(
             'form' => $form,
-            'authRoutes' => $this->config['tss']['authentication']['routes']
+            'authRoutes' => $config['tss']['authentication']['routes']
         ));
 
-        $viewModel->setTemplate($this->config['tss']['authentication']['template']['signin']);
+        $viewModel->setTemplate($config['tss']['authentication']['template']['signin']);
 
-        $this->layout($this->config['tss']['authentication']['layout']);
+        $this->layout($config['tss']['authentication']['layout']);
 
         return $viewModel;
     }
 
     public function authenticateAction()
     {
+        $config = $this->getServiceLocator()->get('config');
+
         if ($this->identity()) {
-            return $this->redirect()->toRoute($this->config['tss']['authentication']['routes']['redirect']['name']);
+            return $this->redirect()->toRoute($config['tss']['authentication']['routes']['redirect']['name']);
         }
 
         $form = new SigninForm();
-        $form->setAttribute('action', $this->url()->fromRoute($this->config['tss']['authentication']['routes']['authenticate']['name']));
+        $form->setAttribute('action', $this->url()->fromRoute($config['tss']['authentication']['routes']['authenticate']['name']));
         $form->prepare();
 
         $request = $this->getRequest();
@@ -157,55 +59,61 @@ class AuthController extends AbstractActionController
             $post = $request->getPost();
             $form->setData($post);
             if ($form->isValid()) {
-                $authenticationAdapter = $this->getAuthentication()->getAdapter();
-                $authenticationAdapter->setIdentityValue($form->get('username')->getValue());
-                $authenticationAdapter->setCredentialValue(sha1(sha1($form->get('password')->getValue())));
+                $authService = $this->getServiceLocator()->get('authentication');
+                $authAdapter = $authService->getAdapter();
+                $authAdapter->setIdentityValue($form->get('username')->getValue());
+                $authAdapter->setCredentialValue(sha1(sha1($form->get('password')->getValue())));
 
-                $authResult = $this->getAuthentication()->authenticate();
+                $authResult = $authService->authenticate();
 
                 if ($authResult->isValid()) {
                     $identity = $authResult->getIdentity();
 
-                    $authenticationStorage = $this->getAuthentication()->getStorage();
+                    $authStorage = $authService->getStorage();
                     if ($form->get('remember-me')->getValue() == 1) {
-                        $authenticationStorage->setRememberMe(1);
+                        $authStorage->setRememberMe(1);
                     }
-                    $authenticationStorage->write($identity);
+                    $authStorage->write($identity);
 
                     $this->flashMessenger()->addSuccessMessage(_('Sign in with success!'));
 
-                    return $this->redirect()->toRoute($this->config['tss']['authentication']['routes']['redirect']['name']);
+                    return $this->redirect()->toRoute($config['tss']['authentication']['routes']['redirect']['name']);
                 } else {
                     $this->flashMessenger()->addErrorMessage(_('Username or password is invalid.'));
                 }
             }
         }
 
-        return $this->redirect()->toRoute($this->config['tss']['authentication']['routes']['signin']['name']);
+        return $this->redirect()->toRoute($config['tss']['authentication']['routes']['signin']['name']);
     }
 
     public function signoutAction()
     {
+        $config = $this->getServiceLocator()->get('config');
         if (!$this->identity()) {
-            return $this->redirect()->toRoute($this->config['tss']['authentication']['routes']['signin']['name']);
+            return $this->redirect()->toRoute($config['tss']['authentication']['routes']['signin']['name']);
         }
 
-        $this->getAuthentication()->getStorage()->forgetMe();
-        $this->getAuthentication()->clearIdentity();
+        $authService = $this->getServiceLocator()->get('authentication');
+        $authService->getStorage()->forgetMe();
+        $authService->clearIdentity();
         $this->flashMessenger()->addErrorMessage(_('You\'re disconected!'));
-        return $this->redirect()->toRoute($this->config['tss']['authentication']['routes']['redirect']['name']);
+        return $this->redirect()->toRoute($config['tss']['authentication']['routes']['redirect']['name']);
     }
 
     public function signupAction()
     {
-        if ($this->identity()) {
-            return $this->redirect()->toRoute($this->config['tss']['authentication']['routes']['redirect']['name']);
-        }
+        $config = $this->getServiceLocator()->get('config');
+        $tranlator = $this->getServiceLocator()->get('translator');
 
-        $form = new SignupForm($this->getEntityManager(), $this->config);
-        $form->setAttribute('action', $this->url()->fromRoute($this->config['tss']['authentication']['routes']['signup']['name']));
-        $userClass = $this->config['tss']['authentication']['config']['identityClass'];
-        $user = new $userClass;
+        if ($this->identity()) {
+            return $this->redirect()->toRoute($config['tss']['authentication']['routes']['redirect']['name']);
+        }
+        $entityManager = $this->getServiceLocator()->get('Doctrine\ORM\EntityManager');
+
+        $form = new SignupForm($entityManager, $config);
+        $form->setAttribute('action', $this->url()->fromRoute($config['tss']['authentication']['routes']['signup']['name']));
+        $user = new $config['tss']['authentication']['config']['identityClass'];
         $form->bind($user);
         $form->prepare();
 
@@ -214,40 +122,39 @@ class AuthController extends AbstractActionController
             $form->setData($request->getPost());
 
             if ($form->isValid()) {
-                $credentialClass = $this->config['tss']['authentication']['config']['credentialClass'];
-                $credential = new $credentialClass;
+                $credential = new $config['tss']['authentication']['config']['credentialClass']();
                 $credential->setType(AbstractCredential::TYPE_PASSWORD);
                 $credential->setValue(sha1(sha1($form->get('password')->getValue())));
                 $credential->setUser($user);
                 $user->addCredential($credential);
 
-                $role = $this->getEntityManager()->find($this->config['tss']['authentication']['config']['roleClass'], $this->config['tss']['authentication']['config']['roleDefault']);
+                $role = $entityManager->find($config['tss']['authentication']['config']['roleClass'], $config['tss']['authentication']['config']['roleDefault']);
                 $user->setRole($role);
 
                 $user->setAvatar($this->imageThumb()->getDefaultImageThumb());
-                $user->setActive($this->config['tss']['authentication']['config']['identityActive']);
+                $user->setActive($config['tss']['authentication']['config']['identityActive']);
                 $user->setToken(sha1(uniqid(mt_rand(), true)));
 
-                $this->getEntityManager()->persist($user);
-                $this->getEntityManager()->flush();
+                $entityManager->persist($user);
+                $entityManager->flush();
 
 
                 $fullLink = $this->url()->fromRoute(
-                    $this->config['tss']['authentication']['routes']['confirm-email']['name'],
+                    $config['tss']['authentication']['routes']['confirm-email']['name'],
                     array(
                         'token' => $user->getToken(),
                     ),
                     array('force_canonical' => true)
                 );
                 $to = $user->getEmail();
-                $subject = $this->getTranslator()->translate("Please, confirm your registration!");
-                $body = $this->getTranslator()->translate("Please, click the link to confirm your registration => ") . $fullLink;
+                $subject = $tranlator->translate("Please, confirm your registration!");
+                $body = $tranlator->translate("Please, click the link to confirm your registration => ") . $fullLink;
 
                 $this->email()->send($to, $subject, $body);
 
-                $this->flashMessenger()->addSuccessMessage(sprintf($this->getTranslator()->translate('An email has been sent to %s. Please, check your inbox and confirm your registration!'), $user->getEmail()));
+                $this->flashMessenger()->addSuccessMessage(sprintf($tranlator->translate('An email has been sent to %s. Please, check your inbox and confirm your registration!'), $user->getEmail()));
 
-                return $this->redirect()->toRoute($this->config['tss']['authentication']['routes']['signin']['name']);
+                return $this->redirect()->toRoute($config['tss']['authentication']['routes']['signin']['name']);
             } else {
                 $this->flashMessenger()->addErrorMessage(_('Form with errors!'));
             }
@@ -255,24 +162,28 @@ class AuthController extends AbstractActionController
 
         $viewModel = new ViewModel(array(
             'form' => $form,
-            'authRoutes' => $this->config['tss']['authentication']['routes']
+            'authRoutes' => $config['tss']['authentication']['routes']
         ));
 
-        $viewModel->setTemplate($this->config['tss']['authentication']['template']['signup']);
+        $viewModel->setTemplate($config['tss']['authentication']['template']['signup']);
 
-        $this->layout($this->config['tss']['authentication']['layout']);
+        $this->layout($config['tss']['authentication']['layout']);
         return $viewModel;
     }
 
     public function confirmEmailAction()
     {
-        $identityRepo = $this->getEntityManager()->getRepository($this->config['tss']['authentication']['config']['identityClass']);
+        $config = $this->getServiceLocator()->get('config');
+        $authService = $this->getServiceLocator()->get('authentication');
+
+        $entityManager = $this->getServiceLocator()->get('Doctrine\ORM\EntityManager');
+        $identityRepo = $entityManager->getRepository($config['tss']['authentication']['config']['identityClass']);
 
         $token = $this->params()->fromRoute('token', 0);
 
         if ($this->identity()) {
-            $this->getAuthentication()->getStorage()->forgetMe();
-            $this->getAuthentication()->clearIdentity();
+            $authService->getStorage()->forgetMe();
+            $authService->clearIdentity();
         }
 
         $qb = $identityRepo->createQueryBuilder('i');
@@ -282,22 +193,22 @@ class AuthController extends AbstractActionController
 
         if ($identity == null) {
             $this->flashMessenger()->addErrorMessage(_('Token invalid or you already confirmed this link.'));
-            return $this->redirect()->toRoute($this->config['tss']['authentication']['routes']['signin']['name']);
+            return $this->redirect()->toRoute($config['tss']['authentication']['routes']['signin']['name']);
         }
 
         if (!$identity->isConfirmedEmail()) {
             $identity->setToken(sha1(uniqid(mt_rand(), true))); // change immediately taken to prevent multiple requests to db
             $identity->setActive(true);
             $identity->setConfirmedEmail(true);
-            $this->getEntityManager()->flush();
-            $this->getAuthentication()->getStorage()->write($identity);
+            $entityManager->flush();
+            $authService->getStorage()->write($identity);
             $this->flashMessenger()->addSuccessMessage(_('Email confirmed.'));
-            return $this->redirect()->toRoute($this->config['tss']['authentication']['routes']['redirect']['name']);
+            return $this->redirect()->toRoute($config['tss']['authentication']['routes']['redirect']['name']);
         } else {
             $identity->setToken(sha1(uniqid(mt_rand(), true))); // change immediately taken to prevent multiple requests to db
-            $this->getEntityManager()->flush();
+            $entityManager->flush();
             $this->flashMessenger()->addInfoMessage(_('Email already verified. Please login!'));
-            return $this->redirect()->toRoute($this->config['tss']['authentication']['routes']['signin']['name']);
+            return $this->redirect()->toRoute($config['tss']['authentication']['routes']['signin']['name']);
         }
     }
 }
