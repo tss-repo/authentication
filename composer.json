@@ -1,9 +1,9 @@
 {
-  "name": "thiagosxsantos/tss-authentication",
+  "name": "tss/authentication",
   "type": "library",
   "description": "TSS Authentication",
   "keywords": ["zf2", "authentication"],
-  "homepage": "https://bitbucket.org/thiagosxsantos/tss-authentication",
+  "homepage": "https://github.com/tss-repo/authentication",
   "license": "MIT",
   "authors": [
     {
@@ -16,14 +16,14 @@
   "repositories": [
     {
       "type": "vcs",
-      "url":  "git@bitbucket.org:thiagosxsantos/tss-bootstrap.git"
+      "url":  "git@github.com:tss-repo/bootstrap.git"
     }
   ],
   "require": {
     "php": ">=5.5",
     "zendframework/zendframework": "^2.5",
     "doctrine/doctrine-orm-module": "^0.9",
-    "thiagosxsantos/tss-bootstrap": "dev-master"
+    "tss/bootstrap": "dev-master"
   },
   "autoload": {
     "psr-0": {
