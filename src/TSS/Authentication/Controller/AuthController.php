@@ -9,8 +9,6 @@
 namespace TSS\Authentication\Controller;
 
 
-use TSS\Authentication\Entity\AbstractCredential;
-use TSS\Authentication\Entity\AbstractUser;
 use TSS\Authentication\Form\SigninForm;
 use TSS\Authentication\Form\SignupForm;
 use Zend\Mvc\Controller\AbstractActionController;
@@ -123,7 +121,7 @@ class AuthController extends AbstractActionController
 
             if ($form->isValid()) {
                 $credential = new $config['tss']['authentication']['config']['credentialClass']();
-                $credential->setType(AbstractCredential::TYPE_PASSWORD);
+                $credential->setType($config['tss']['authentication']['config']['credentialType']);
                 $credential->setValue(sha1(sha1($form->get('password')->getValue())));
                 $credential->setUser($user);
                 $user->addCredential($credential);

@@ -150,10 +150,10 @@ class UserFieldset extends Fieldset
             'type' => 'textarea',
             'attributes' => array(
                 'class' => 'form-control',
-                'placeholder' => _('bio'),
+                'placeholder' => _('Bio'),
             ),
             'options' => array(
-                'label' => _('Birthday'),
+                'label' => _('Bio'),
                 'label_attributes' => array('class' => 'control-label'),
             ),
         ));
