@@ -12,7 +12,7 @@ use Zend\Form\Form;
 class SigninForm extends Form
 {
 
-    public function __construct(EntityManagerInterface $em, $name = 'signin', $options = null)
+    public function __construct($name = 'signin', $options = null)
     {
         parent::__construct($name, $options);
         $this->setAttribute('method', 'post');

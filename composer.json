@@ -27,6 +27,7 @@
   "require": {
     "php": "^5.5 || ^7.0",
     "zendframework/zend-stdlib": "^3.0",
+    "zendframework/zend-permissions-acl": "^2.6",
     "doctrine/doctrine-orm-module": "dev-master",
     "zetta-code/tss-bootstrap": "dev-develop",
     "zetta-code/tss-doctrineutil": "dev-master"

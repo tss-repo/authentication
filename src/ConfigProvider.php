@@ -15,6 +15,11 @@ class ConfigProvider
      */
     public function __invoke()
     {
-        return [];
+        return $this->getConfig();
+    }
+
+    public function getConfig()
+    {
+        return include __DIR__ . '/../config/module.config.php';
     }
 }

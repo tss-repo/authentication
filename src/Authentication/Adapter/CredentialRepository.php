@@ -116,7 +116,7 @@ class CredentialRepository extends AbstractAdapter
         if ($options->getIdentityClass() != null) {
             $identity = $options
                 ->getIdentityRepository()
-                ->findOneBy(array($options->getIdentityProperty() => $this->identity));
+                ->findOneBy([$options->getIdentityProperty() => $this->identity]);
 
             if (!$identity) {
                 $this->authenticationResultInfo['code'] = AuthenticationResult::FAILURE_IDENTITY_NOT_FOUND;
@@ -146,7 +146,10 @@ class CredentialRepository extends AbstractAdapter
         $options = $this->options;
         $credential = $options
             ->getCredentialRepository()
-            ->findOneBy(array($options->getCredentialIdentityProperty() => $identity, $options->getCredentialProperty() => $this->credential));
+            ->findOneBy([
+                $options->getCredentialIdentityProperty() => $identity,
+                $options->getCredentialProperty() => $this->credential
+            ]);
 
         if (!$credential) {
             $this->authenticationResultInfo['code'] = AuthenticationResult::FAILURE_IDENTITY_NOT_FOUND;
@@ -209,7 +212,10 @@ class CredentialRepository extends AbstractAdapter
         $options = $this->options;
         $credential = $options
             ->getCredentialRepository()
-            ->findOneBy(array($options->getIdentityProperty() => $this->identity, $options->getCredentialProperty() => $this->credential));
+            ->findOneBy([
+                $options->getIdentityProperty() => $this->identity,
+                $options->getCredentialProperty() => $this->credential
+            ]);
 
         if (!$credential) {
             $this->authenticationResultInfo['code'] = AuthenticationResult::FAILURE_IDENTITY_NOT_FOUND;
@@ -275,11 +281,11 @@ class CredentialRepository extends AbstractAdapter
             );
         }
 
-        $this->authenticationResultInfo = array(
+        $this->authenticationResultInfo = [
             'code' => AuthenticationResult::FAILURE,
             'identity' => $this->identity,
-            'messages' => array()
-        );
+            'messages' => []
+        ];
     }
 
     /**

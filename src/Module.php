@@ -15,6 +15,7 @@ class Module
      */
     public function getConfig()
     {
-        return [];
+        $provider = new ConfigProvider();
+        return $provider->getConfig();
     }
 }

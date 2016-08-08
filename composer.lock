@@ -4,8 +4,8 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file",
         "This file is @generated automatically"
     ],
-    "hash": "76cf071c6d9a4cbe8197f465d1dac27d",
-    "content-hash": "4fcef706d71942250a8c956c65ed4f9d",
+    "hash": "8420b446ddfd7dda93a72ee52f64a7a8",
+    "content-hash": "fc956af5768a1c5dc3105c1ae5e963c6",
     "packages": [
         {
             "name": "container-interop/container-interop",
@@ -1744,6 +1744,55 @@
             "time": "2016-04-11 21:18:13"
         },
         {
+            "name": "zendframework/zend-permissions-acl",
+            "version": "2.6.0",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/zendframework/zend-permissions-acl.git",
+                "reference": "843bbd9c6f6d20b84dd0ce6c815d10397e98082b"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/zendframework/zend-permissions-acl/zipball/843bbd9c6f6d20b84dd0ce6c815d10397e98082b",
+                "reference": "843bbd9c6f6d20b84dd0ce6c815d10397e98082b",
+                "shasum": ""
+            },
+            "require": {
+                "php": "^5.5 || ^7.0"
+            },
+            "require-dev": {
+                "fabpot/php-cs-fixer": "1.7.*",
+                "phpunit/phpunit": "~4.0",
+                "zendframework/zend-servicemanager": "^2.7.5 || ^3.0.3"
+            },
+            "suggest": {
+                "zendframework/zend-servicemanager": "To support Zend\\Permissions\\Acl\\Assertion\\AssertionManager plugin manager usage"
+            },
+            "type": "library",
+            "extra": {
+                "branch-alias": {
+                    "dev-master": "2.6-dev",
+                    "dev-develop": "2.7-dev"
+                }
+            },
+            "autoload": {
+                "psr-4": {
+                    "Zend\\Permissions\\Acl\\": "src/"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "BSD-3-Clause"
+            ],
+            "description": "provides a lightweight and flexible access control list (ACL) implementation for privileges management",
+            "homepage": "https://github.com/zendframework/zend-permissions-acl",
+            "keywords": [
+                "acl",
+                "zf2"
+            ],
+            "time": "2016-02-03 21:46:45"
+        },
+        {
             "name": "zendframework/zend-router",
             "version": "3.0.2",
             "source": {
@@ -2172,12 +2221,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/zetta-code/tss-doctrineutil.git",
-                "reference": "f113e2d3b6fbebe3d7d24fd0be33c415f6b69a5b"
+                "reference": "d1dc4a8794a13fe0ccd588f53ba5cf978de0c823"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/zetta-code/tss-doctrineutil/zipball/f113e2d3b6fbebe3d7d24fd0be33c415f6b69a5b",
-                "reference": "f113e2d3b6fbebe3d7d24fd0be33c415f6b69a5b",
+                "url": "https://api.github.com/repos/zetta-code/tss-doctrineutil/zipball/d1dc4a8794a13fe0ccd588f53ba5cf978de0c823",
+                "reference": "d1dc4a8794a13fe0ccd588f53ba5cf978de0c823",
                 "shasum": ""
             },
             "require": {
@@ -2217,7 +2266,7 @@
                 "util",
                 "zf3"
             ],
-            "time": "2016-08-08 03:48:42"
+            "time": "2016-08-08 11:22:05"
         }
     ],
     "packages-dev": [],

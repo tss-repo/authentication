@@ -73,7 +73,7 @@ class Acl extends ZendAcl
         foreach ($roles as $name => $parent) {
             if (!$this->hasRole($name)) {
                 if (empty($parent) && !is_array($parent)) {
-                    $parent = array();
+                    $parent = [];
                 }
                 $this->addRole(new GenericRole($name), $parent);
             }

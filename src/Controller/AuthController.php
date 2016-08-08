@@ -25,10 +25,10 @@ class AuthController extends AbstractActionController
         $form->setAttribute('action', $this->url()->fromRoute($config['tss']['authentication']['routes']['authenticate']['name']));
         $form->prepare();
 
-        $viewModel = new ViewModel(array(
+        $viewModel = new ViewModel([
             'form' => $form,
             'authRoutes' => $config['tss']['authentication']['routes']
-        ));
+        ]);
 
         $viewModel->setTemplate($config['tss']['authentication']['template']['signin']);
 
@@ -136,10 +136,10 @@ class AuthController extends AbstractActionController
 
                 $fullLink = $this->url()->fromRoute(
                     $config['tss']['authentication']['routes']['confirm-email']['name'],
-                    array(
+                    [
                         'token' => $user->getToken(),
-                    ),
-                    array('force_canonical' => true)
+                    ],
+                    ['force_canonical' => true]
                 );
                 $to = $user->getEmail();
                 $subject = $tranlator->translate("Please, confirm your registration!");
@@ -155,10 +155,10 @@ class AuthController extends AbstractActionController
             }
         }
 
-        $viewModel = new ViewModel(array(
+        $viewModel = new ViewModel([
             'form' => $form,
             'authRoutes' => $config['tss']['authentication']['routes']
-        ));
+        ]);
 
         $viewModel->setTemplate($config['tss']['authentication']['template']['signup']);
 
