@@ -1,10 +1,14 @@
 {
   "name": "zetta-code/tss-authentication",
   "type": "library",
-  "description": "TSS Authentication",
-  "keywords": ["zf2", "authentication"],
-  "homepage": "https://github.com/zetta-code/tss-authentication",
+  "description": "TSS/Authentication",
   "license": "MIT",
+  "keywords": [
+    "zf2",
+    "tss",
+    "authentication"
+  ],
+  "homepage": "https://github.com/zetta-code/tss-authentication",
   "authors": [
     {
       "name": "Thiago S. Santos",
@@ -13,15 +17,26 @@
       "role": "Developer"
     }
   ],
-  "require": {
-    "php": ">=5.5",
-    "zendframework/zendframework": "^2.5",
-    "doctrine/doctrine-orm-module": "^0.9",
-    "zetta-code/tss-bootstrap": "~0.1"
-  },
   "autoload": {
-    "psr-0": {
+    "psr-4": {
       "TSS\\Authentication\\": "src/"
+    }
+  },
+  "minimum-stability": "dev",
+  "prefer-stable": true,
+  "require": {
+    "php": "^5.5 || ^7.0",
+    "zendframework/zend-stdlib": "^3.0",
+    "doctrine/doctrine-orm-module": "dev-master",
+    "zetta-code/tss-bootstrap": "dev-develop",
+    "zetta-code/tss-doctrineutil": "dev-master"
+  },
+  "require-dev": {
+  },
+  "extra": {
+    "zf": {
+      "component": "TSS\\Authentication",
+      "config-provider": "TSS\\Authentication\\ConfigProvider"
     }
   }
 }
