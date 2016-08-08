@@ -2172,12 +2172,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/zetta-code/tss-doctrineutil.git",
-                "reference": "3b41709c916a25463232e02aa07b10c2ee630abc"
+                "reference": "f113e2d3b6fbebe3d7d24fd0be33c415f6b69a5b"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/zetta-code/tss-doctrineutil/zipball/3b41709c916a25463232e02aa07b10c2ee630abc",
-                "reference": "3b41709c916a25463232e02aa07b10c2ee630abc",
+                "url": "https://api.github.com/repos/zetta-code/tss-doctrineutil/zipball/f113e2d3b6fbebe3d7d24fd0be33c415f6b69a5b",
+                "reference": "f113e2d3b6fbebe3d7d24fd0be33c415f6b69a5b",
                 "shasum": ""
             },
             "require": {
@@ -2217,7 +2217,7 @@
                 "util",
                 "zf3"
             ],
-            "time": "2016-08-08 03:29:15"
+            "time": "2016-08-08 03:48:42"
         }
     ],
     "packages-dev": [],
