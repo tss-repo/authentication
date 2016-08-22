@@ -6,35 +6,27 @@
 
 namespace TSS\Authentication;
 
-use Zend\ServiceManager\Factory\InvokableFactory;
+use TSS\Authentication\Controller\AccountControllerFactory;
+use TSS\Authentication\Controller\AuthControllerFactory;
+use Zend\Router\Http\Literal;
+use Zend\Router\Http\Segment;
 
 return [
     'controllers' => [
+        'aliases' => [
+            'TSS\Authentication\Controller\Account' => Controller\AccountController::class,
+            'TSS\Authentication\Controller\Auth' => Controller\AuthController::class,
+        ],
         'factories' => [
-            Controller\AccountController::class => InvokableFactory::class,
-            Controller\AuthController::class => InvokableFactory::class,
+            Controller\AccountController::class => AccountControllerFactory::class,
+            Controller\AuthController::class => AuthControllerFactory::class,
         ],
     ],
-
-//    'doctrine' => [
-//        'driver' => [
-//            'tss_authentication_entities' => [
-//                'class' => 'Doctrine\ORM\Mapping\Driver\AnnotationDriver',
-//                'cache' => 'array',
-//                'paths' => [__DIR__ . '/../src/TSS/Authentication/Entity'],
-//            ),
-//            'orm_default' => [
-//                'drivers' => [
-//                    'TSS\Authentication' => 'tss_authentication_entities',
-//                ],
-//            ],
-//        ],
-//    ],
 
     'router' => [
         'routes' => [
             'tssAuthentication' => [
-                'type' => 'literal',
+                'type' => Literal::class,
                 'options' => [
                     'route' => '/auth',
                     'defaults' => [
@@ -45,7 +37,7 @@ return [
                 'may_terminate' => true,
                 'child_routes' => [
                     'authenticate' => [
-                        'type' => 'literal',
+                        'type' => Literal::class,
                         'options' => [
                             'route' => '/authenticate',
                             'defaults' => [
@@ -55,7 +47,7 @@ return [
                         'priority' => 9,
                     ],
                     'confirm-email' => [
-                        'type' => 'segment',
+                        'type' => Segment::class,
                         'options' => [
                             'route' => '/confirm-email/:token',
                             'constraints' => [
@@ -68,7 +60,7 @@ return [
                         'priority' => 9,
                     ],
                     'default' => [
-                        'type' => 'segment',
+                        'type' => Segment::class,
                         'options' => [
                             'route' => '/:controller[/[:action[/[:id]]]]',
                             'constraints' => [
@@ -84,7 +76,7 @@ return [
                         'priority' => 5,
                     ],
                     'signin' => [
-                        'type' => 'literal',
+                        'type' => Literal::class,
                         'options' => [
                             'route' => '/signin',
                             'defaults' => [
@@ -94,7 +86,7 @@ return [
                         'priority' => 9,
                     ],
                     'signout' => [
-                        'type' => 'literal',
+                        'type' => Literal::class,
                         'options' => [
                             'route' => '/signout',
                             'defaults' => [
@@ -104,7 +96,7 @@ return [
                         'priority' => 9,
                     ],
                     'signup' => [
-                        'type' => 'literal',
+                        'type' => Literal::class,
                         'options' => [
                             'route' => '/signup',
                             'defaults' => [

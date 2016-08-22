@@ -10,11 +10,12 @@ use Doctrine\ORM\Mapping as ORM;
 use TSS\DoctrineUtil\Entity\AbstractEntity;
 
 /**
- * AbstractUser
+ * Class AbstractUser
+ * @package TSS\Authentication\Entity
  *
  * @ORM\MappedSuperclass
  */
-abstract class AbstractUser extends AbstractEntity
+abstract class AbstractUser extends AbstractEntity implements UserInterface
 {
     const GENDER_FEMALE = 1;
     const GENDER_MALE = 2;
@@ -126,6 +127,26 @@ abstract class AbstractUser extends AbstractEntity
     public function setId($id)
     {
         $this->id = $id;
+    }
+
+    /**
+     * @return string
+     */
+    public function getName()
+    {
+        if (!empty($this->firstName)) {
+            if (!empty($this->lastName)) {
+                $name = $this->firstName . ' ' . $this->lastName;
+            } else {
+                $name = $this->firstName;
+            }
+        } elseif (!empty($this->lastName)) {
+            $name = $this->lastName;
+        } else {
+            $name = '';
+        }
+
+        return $name;
     }
 
     /**
@@ -313,15 +334,26 @@ abstract class AbstractUser extends AbstractEntity
     }
 
     /**
-     * @param boolean $confirmedEmail
+     * @param bool $confirmedEmail
      */
     public function setConfirmedEmail($confirmedEmail)
     {
         $this->confirmedEmail = $confirmedEmail;
     }
 
-    public function getFullname()
+    /**
+     * @return bool
+     */
+    public function isSignAllowed()
     {
-        return $this->firstName . ' ' . $this->lastName;
+        return $this->isActive();
+    }
+
+    /**
+     * @param bool $signAllowed
+     */
+    public function setSignAllowed($signAllowed)
+    {
+        $this->active = $signAllowed;
     }
 }

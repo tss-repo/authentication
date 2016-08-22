@@ -10,11 +10,12 @@ use Doctrine\ORM\Mapping as ORM;
 use TSS\DoctrineUtil\Entity\AbstractEntity;
 
 /**
- * AbstractRole
+ * Class AbstractRole
+ * @package TSS\Authentication\Entity
  *
  * @ORM\MappedSuperclass
  */
-class AbstractRole extends AbstractEntity
+abstract class AbstractRole extends AbstractEntity implements RoleInterface
 {
     /**
      * @var int
@@ -85,5 +86,10 @@ class AbstractRole extends AbstractEntity
     public function setActive($active)
     {
         $this->active = $active;
+    }
+
+    public function getDefaultRoleName()
+    {
+        return 'Guest';
     }
 }

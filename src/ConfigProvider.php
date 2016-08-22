@@ -6,7 +6,9 @@
 
 namespace TSS\Authentication;
 
-class ConfigProvider
+use Zend\ModuleManager\Feature\ConfigProviderInterface;
+
+class ConfigProvider implements ConfigProviderInterface
 {
     /**
      * Return configuration for this component.
