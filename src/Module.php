@@ -181,7 +181,7 @@ class Module
         $acl = $this->serviceManager->get('acl');
 
         if ($auth->hasIdentity()) {
-            $userRole = $auth->getIdentity()->getRole()->getName();
+            $userRole = $auth->getIdentity()->getRoleName();
         } else {
             $userRole = $acl->getDefaultRole();
         }

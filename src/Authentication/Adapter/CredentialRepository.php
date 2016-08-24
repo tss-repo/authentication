@@ -6,60 +6,44 @@
 
 namespace TSS\Authentication\Authentication\Adapter;
 
-use TSS\Authentication\Options\CredentialOptions;
+use DoctrineModule\Authentication\Adapter\ObjectRepository;
+use TSS\Authentication\Options\Authentication as AuthenticationOptions;
 use Zend\Authentication\Adapter\AbstractAdapter;
 use Zend\Authentication\Adapter\Exception;
 use Zend\Authentication\Result as AuthenticationResult;
 
 /**
  * Authentication adapter that uses a Doctrine object for verification.
- *
- * @author  Thiago S. Santos <thiagos.xsantos@gmail.com>
  */
-class CredentialRepository extends AbstractAdapter
+class CredentialRepository extends ObjectRepository
 {
     /**
-     * @var CredentialOptions
+     * @var AuthenticationOptions
      */
     protected $options;
 
     /**
-     * Contains the authentication results.
-     *
-     * @var array
-     */
-    protected $authenticationResultInfo = null;
-
-    /**
      * Constructor
      *
-     * @param array|CredentialOptions $options
+     * @param array|AuthenticationOptions $options
      */
     public function __construct($options = array())
     {
-        $this->setOptions($options);
+        parent::__construct($options);
     }
 
     /**
-     * @param  array|CredentialOptions $options
-     * @return CredentialRepository
+     * @param array|\DoctrineModule\Options\Authentication $options
+     * @return $this
      */
     public function setOptions($options)
     {
-        if (!$options instanceof CredentialOptions) {
-            $options = new CredentialOptions($options);
+        if (!$options instanceof AuthenticationOptions) {
+            $options = new AuthenticationOptions($options);
         }
 
         $this->options = $options;
         return $this;
-    }
-
-    /**
-     * @return CredentialOptions
-     */
-    public function getOptions()
-    {
-        return $this->options;
     }
 
     /**
@@ -111,11 +95,11 @@ class CredentialRepository extends AbstractAdapter
      */
     public function authenticate()
     {
-        $this->setup();
         $options = $this->options;
         if ($options->getIdentityClass() != null) {
+            $this->setup();
             $identity = $options
-                ->getIdentityRepository()
+                ->getObjectRepository()
                 ->findOneBy([$options->getIdentityProperty() => $this->identity]);
 
             if (!$identity) {
@@ -127,7 +111,21 @@ class CredentialRepository extends AbstractAdapter
 
             $authResult = $this->validateIdentity($identity);
         } else {
-            $authResult = $this->validateCredential();
+            $this->setupCredential();
+            $credential = $options
+                ->getCredentialRepository()
+                ->findOneBy([
+                    $options->getIdentityProperty() => $this->identity,
+                    $options->getCredentialProperty() => $this->credential
+                ]);
+
+            if (!$credential) {
+                $this->authenticationResultInfo['code'] = AuthenticationResult::FAILURE_IDENTITY_NOT_FOUND;
+                $this->authenticationResultInfo['messages'][] = 'A record with the supplied credential could not be found.';
+
+                return $this->createAuthenticationResult();
+            }
+            $authResult = $this->validateCredential($credential);
         }
 
         return $authResult;
@@ -205,25 +203,11 @@ class CredentialRepository extends AbstractAdapter
      * record that matched the identity provided to this adapter.
      *
      * @throws Exception\UnexpectedValueException
+     * @param object $credential
      * @return AuthenticationResult
      */
-    protected function validateCredential()
+    protected function validateCredential($credential)
     {
-        $options = $this->options;
-        $credential = $options
-            ->getCredentialRepository()
-            ->findOneBy([
-                $options->getIdentityProperty() => $this->identity,
-                $options->getCredentialProperty() => $this->credential
-            ]);
-
-        if (!$credential) {
-            $this->authenticationResultInfo['code'] = AuthenticationResult::FAILURE_IDENTITY_NOT_FOUND;
-            $this->authenticationResultInfo['messages'][] = 'A record with the supplied credential could not be found.';
-
-            return $this->createAuthenticationResult();
-        }
-
         $credentialIdentityProperty = $this->options->getCredentialIdentityProperty();
         $getter = 'get' . ucfirst($credentialIdentityProperty);
         $identity = null;
@@ -272,7 +256,7 @@ class CredentialRepository extends AbstractAdapter
      *
      * @throws Exception\RuntimeException - in the event that setup was not done properly
      */
-    protected function setup()
+    protected function setupCredential()
     {
         if (null === $this->credential) {
             throw new Exception\RuntimeException(
@@ -286,20 +270,5 @@ class CredentialRepository extends AbstractAdapter
             'identity' => $this->identity,
             'messages' => []
         ];
-    }
-
-    /**
-     * Creates a Zend\Authentication\Result object from the information that has been collected
-     * during the authenticate() attempt.
-     *
-     * @return \Zend\Authentication\Result
-     */
-    protected function createAuthenticationResult()
-    {
-        return new AuthenticationResult(
-            $this->authenticationResultInfo['code'],
-            $this->authenticationResultInfo['identity'],
-            $this->authenticationResultInfo['messages']
-        );
     }
 }

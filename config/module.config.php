@@ -6,8 +6,14 @@
 
 namespace TSS\Authentication;
 
+use TSS\Authentication\Authentication\Adapter\CredentialRepository;
+use TSS\Authentication\Authentication\Adapter\CredentialRepositoryFactory;
+use TSS\Authentication\Authentication\AuthenticationServiceFactory;
+use TSS\Authentication\Authentication\Storage\Session;
+use TSS\Authentication\Authentication\Storage\SessionFactory;
 use TSS\Authentication\Controller\AccountControllerFactory;
 use TSS\Authentication\Controller\AuthControllerFactory;
+use Zend\Authentication\AuthenticationService;
 use Zend\Router\Http\Literal;
 use Zend\Router\Http\Segment;
 
@@ -65,8 +71,8 @@ return [
                             'route' => '/:controller[/[:action[/[:id]]]]',
                             'constraints' => [
                                 'controller' => '[a-zA-Z][a-zA-Z0-9_-]*',
-                                'action'     => '[a-zA-Z][a-zA-Z0-9_-]*',
-                                'id'     => '[0-9]+',
+                                'action' => '[a-zA-Z][a-zA-Z0-9_-]*',
+                                'id' => '[0-9]+',
                             ],
                             'defaults' => [
                                 '__NAMESPACE__' => 'TSS\Authentication\Controller',
@@ -113,7 +119,7 @@ return [
 
     'service_manager' => [
         'aliases' => [
-            'Zend\Authentication\AuthenticationService' => 'authentication',
+            'authentication' => 'Zend\Authentication\AuthenticationService',
         ],
         'factories' => [
             'acl' => function ($sm) {
@@ -121,41 +127,9 @@ return [
                 return new Permissions\Acl\Acl($config['tss']['authentication']['acl']);
             },
 
-            'authentication.adapter' => function ($sm) {
-                $config = $sm->get('config');
-                $options = [
-                    'entityManager' => $sm->get('Doctrine\ORM\EntityManager'),
-                    'identityClass' => $config['tss']['authentication']['config']['identityClass'],
-                    'identityProperty' => $config['tss']['authentication']['config']['identityProperty'],
-                    'credentialClass' => $config['tss']['authentication']['config']['credentialClass'],
-                    'credentialProperty' => $config['tss']['authentication']['config']['credentialProperty'],
-                    'credentialIdentityProperty' => $config['tss']['authentication']['config']['credentialIdentityProperty'],
-                    'credential_callable' => $config['tss']['authentication']['config']['credential_callable'],
-                ];
-
-                return new Authentication\Adapter\CredentialRepository($options);
-            },
-
-            'authentication.storage' => function ($sm) {
-                $config = $sm->get('config');
-                $options = [
-                    'entityManager' => $sm->get('Doctrine\ORM\EntityManager'),
-                    'identityClass' => $config['tss']['authentication']['config']['identityClass'],
-                ];
-
-                return new Authentication\Storage\CredentialStorage($options);
-            },
-
-            'authentication' => function ($sm) {
-                $authStorage = $sm->get('authentication.storage');
-                $authAdapter = $sm->get('authentication.adapter');
-
-                $authService = new \Zend\Authentication\AuthenticationService();
-                $authService->setStorage($authStorage);
-                $authService->setAdapter($authAdapter);
-
-                return $authService;
-            },
+            CredentialRepository::class => CredentialRepositoryFactory::class,
+            Session::class => SessionFactory::class,
+            AuthenticationService::class => AuthenticationServiceFactory::class,
         ],
     ],
 

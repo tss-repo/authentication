@@ -6,45 +6,46 @@
 
 namespace TSS\Authentication\Authentication\Storage;
 
-use TSS\Authentication\Options\CredentialOptions;
-use Zend\Authentication\Storage\Session;
+use TSS\Authentication\Options\Authentication as AuthenticationOptions;
+use Zend\Session\ManagerInterface as SessionManager;
 
 /**
  * Authentication storage that uses a Doctrine object for verification.
- *
- * @author  Thiago S. Santos <thiagos.xsantos@gmail.com>
  */
-class CredentialStorage extends Session
+class Session extends \Zend\Authentication\Storage\Session
 {
     /**
      *
-     * @var CredentialOptions
+     * @var AuthenticationOptions
      */
     protected $options;
 
     /**
-     * @param  array | CredentialOptions $options
-     * @return CredentialStorage
+     * Sets session storage options and initializes session namespace object
+     *
+     * @param  mixed $namespace
+     * @param  mixed $member
+     * @param  SessionManager $manager
+     * @param array | \DoctrineModule\Options\Authentication $options
+     */
+    public function __construct($namespace = null, $member = null, SessionManager $manager = null, $options = [])
+    {
+        parent::__construct($namespace, $member, $manager);
+        $this->setOptions($options);
+    }
+
+    /**
+     * @param  array | AuthenticationOptions $options
+     * @return Session
      */
     public function setOptions($options)
     {
-        if (!$options instanceof CredentialOptions) {
-            $options = new CredentialOptions($options);
+        if (!$options instanceof AuthenticationOptions) {
+            $options = new AuthenticationOptions($options);
         }
 
         $this->options = $options;
         return $this;
-    }
-
-    /**
-     * Constructor
-     *
-     * @param array | \DoctrineModule\Options\Authentication $options
-     */
-    public function __construct($options = [])
-    {
-        parent::__construct();
-        $this->setOptions($options);
     }
 
     /**
@@ -57,7 +58,7 @@ class CredentialStorage extends Session
     {
         if (($identity = parent::read())) {
 
-            return $this->options->getIdentityRepository()->find($identity);
+            return $this->options->getObjectRepository()->find($identity);
         }
 
         return null;
@@ -87,13 +88,13 @@ class CredentialStorage extends Session
     }
 
     /**
-     * @param int $rememberMe
+     * @param bool $rememberMe
      * @param int $time
      * @return void
      */
-    public function setRememberMe($rememberMe = 0, $time = 1209600)
+    public function setRememberMe($rememberMe = false, $time = 1209600)
     {
-        if ($rememberMe == 1) {
+        if ($rememberMe) {
             $this->session->getManager()->rememberMe($time);
         }
     }
