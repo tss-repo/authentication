@@ -6,7 +6,6 @@
 
 namespace TSS\Authentication\Controller;
 
-
 use Doctrine\ORM\EntityManager;
 use Interop\Container\ContainerInterface;
 use Zend\Authentication\AuthenticationService;
@@ -24,5 +23,4 @@ class AuthControllerFactory implements FactoryInterface
 
         return new AuthController($entityManager, $authenticationService, $translator,$config);
     }
-
 }

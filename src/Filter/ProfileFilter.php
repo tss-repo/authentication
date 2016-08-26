@@ -6,7 +6,6 @@
 
 namespace TSS\Authentication\Filter;
 
-
 use Doctrine\ORM\EntityManagerInterface;
 use TSS\Authentication\Filter\Fieldset\UserFiledsetFilter;
 use Zend\InputFilter\InputFilter;

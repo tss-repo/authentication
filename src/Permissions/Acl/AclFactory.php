@@ -4,19 +4,21 @@
  * @copyright Copyright (c) 2016 Zetta Code
  */
 
-namespace TSS\Authentication\Controller;
+namespace TSS\Authentication\Permissions\Acl;
 
-use Doctrine\ORM\EntityManager;
 use Interop\Container\ContainerInterface;
+use Interop\Container\Exception\ContainerException;
+use Zend\ServiceManager\Exception\ServiceNotCreatedException;
+use Zend\ServiceManager\Exception\ServiceNotFoundException;
 use Zend\ServiceManager\Factory\FactoryInterface;
 
-class AccountControllerFactory implements FactoryInterface
+class AclFactory implements FactoryInterface
 {
     public function __invoke(ContainerInterface $container, $requestedName, array $options = null)
     {
-        $entityManager = $container->get(EntityManager::class);
         $config = $container->get('config');
 
-        return new AccountController($entityManager, $config);
+        return new Acl($config['tss']['authentication']['acl']);
     }
+
 }

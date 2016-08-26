@@ -10,6 +10,11 @@ use Zend\ModuleManager\Feature\ConfigProviderInterface;
 
 class ConfigProvider implements ConfigProviderInterface
 {
+    public function getConfig()
+    {
+        return include __DIR__ . '/../config/module.config.php';
+    }
+
     /**
      * Return configuration for this component.
      *
@@ -18,10 +23,5 @@ class ConfigProvider implements ConfigProviderInterface
     public function __invoke()
     {
         return $this->getConfig();
-    }
-
-    public function getConfig()
-    {
-        return include __DIR__ . '/../config/module.config.php';
     }
 }

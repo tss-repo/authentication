@@ -11,8 +11,9 @@ use TSS\Authentication\Filter\SignupFilter;
 use Zend\Form\Form;
 use Zend\Hydrator\ClassMethods;
 
-class SignupForm extends Form{
-    
+class SignupForm extends Form
+{
+
     public function __construct(EntityManagerInterface $em, $name = 'signup', $options = null)
     {
         parent::__construct($name, $options);
@@ -51,7 +52,7 @@ class SignupForm extends Form{
                 'label_attributes' => ['class' => 'control-label'],
             ],
         ]);
-        
+
         $this->add([
             'name' => 'password',
             'type' => 'password',
@@ -67,7 +68,7 @@ class SignupForm extends Form{
 
         $this->add([
             'name' => 'password-confirm',
-            'type'  => 'password',
+            'type' => 'password',
             'attributes' => [
                 'class' => 'form-control',
                 'placeholder' => _('Confirm Password'),
@@ -83,7 +84,7 @@ class SignupForm extends Form{
             'type' => 'checkbox',
             'options' => [
                 'label' => _('I have read and accepted the terms of use.'),
-                'label_attributes' => ['class'  => 'checkbox-inline'],
+                'label_attributes' => ['class' => 'checkbox-inline'],
             ],
         ]);
 

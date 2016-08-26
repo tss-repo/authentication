@@ -6,13 +6,6 @@
 
 namespace TSS\Authentication;
 
-use TSS\Authentication\Authentication\Adapter\CredentialRepository;
-use TSS\Authentication\Authentication\Adapter\CredentialRepositoryFactory;
-use TSS\Authentication\Authentication\AuthenticationServiceFactory;
-use TSS\Authentication\Authentication\Storage\Session;
-use TSS\Authentication\Authentication\Storage\SessionFactory;
-use TSS\Authentication\Controller\AccountControllerFactory;
-use TSS\Authentication\Controller\AuthControllerFactory;
 use Zend\Authentication\AuthenticationService;
 use Zend\Router\Http\Literal;
 use Zend\Router\Http\Segment;
@@ -21,12 +14,12 @@ return [
     'controllers' => [
         'aliases' => [
             'TSS\Authentication\Controller\Account' => Controller\AccountController::class,
-            'TSS\Authentication\Controller\Auth' => Controller\AuthController::class,
+            'TSS\Authentication\Controller\Auth' => Controller\AuthController::class
         ],
         'factories' => [
-            Controller\AccountController::class => AccountControllerFactory::class,
-            Controller\AuthController::class => AuthControllerFactory::class,
-        ],
+            Controller\AccountController::class => Controller\AccountControllerFactory::class,
+            Controller\AuthController::class => Controller\AuthControllerFactory::class
+        ]
     ],
 
     'router' => [
@@ -37,8 +30,8 @@ return [
                     'route' => '/auth',
                     'defaults' => [
                         'controller' => 'TSS\Authentication\Controller\Auth',
-                        'action' => 'index',
-                    ],
+                        'action' => 'index'
+                    ]
                 ],
                 'may_terminate' => true,
                 'child_routes' => [
@@ -47,8 +40,8 @@ return [
                         'options' => [
                             'route' => '/authenticate',
                             'defaults' => [
-                                'action' => 'authenticate',
-                            ],
+                                'action' => 'authenticate'
+                            ]
                         ],
                         'priority' => 9,
                     ],
@@ -57,13 +50,13 @@ return [
                         'options' => [
                             'route' => '/confirm-email/:token',
                             'constraints' => [
-                                'token' => '[a-zA-Z0-9]*',
+                                'token' => '[a-zA-Z0-9]*'
                             ],
                             'defaults' => [
-                                'action' => 'confirm-email',
-                            ],
+                                'action' => 'confirm-email'
+                            ]
                         ],
-                        'priority' => 9,
+                        'priority' => 9
                     ],
                     'default' => [
                         'type' => Segment::class,
@@ -72,65 +65,58 @@ return [
                             'constraints' => [
                                 'controller' => '[a-zA-Z][a-zA-Z0-9_-]*',
                                 'action' => '[a-zA-Z][a-zA-Z0-9_-]*',
-                                'id' => '[0-9]+',
+                                'id' => '[0-9]+'
                             ],
                             'defaults' => [
                                 '__NAMESPACE__' => 'TSS\Authentication\Controller',
-                                'action' => 'index',
-                            ],
+                                'action' => 'index'
+                            ]
                         ],
-                        'priority' => 5,
+                        'priority' => 5
                     ],
                     'signin' => [
                         'type' => Literal::class,
                         'options' => [
                             'route' => '/signin',
                             'defaults' => [
-                                'action' => 'signin',
-                            ],
+                                'action' => 'signin'
+                            ]
                         ],
-                        'priority' => 9,
+                        'priority' => 9
                     ],
                     'signout' => [
                         'type' => Literal::class,
                         'options' => [
                             'route' => '/signout',
                             'defaults' => [
-                                'action' => 'signout',
+                                'action' => 'signout'
                             ],
                         ],
-                        'priority' => 9,
+                        'priority' => 9
                     ],
                     'signup' => [
                         'type' => Literal::class,
                         'options' => [
                             'route' => '/signup',
                             'defaults' => [
-                                'action' => 'signup',
+                                'action' => 'signup'
                             ],
                         ],
-                        'priority' => 9,
+                        'priority' => 9
                     ],
                 ],
-                'priority' => 10,
-            ],
-        ],
+                'priority' => 10
+            ]
+        ]
     ],
 
     'service_manager' => [
-        'aliases' => [
-            'authentication' => 'Zend\Authentication\AuthenticationService',
-        ],
         'factories' => [
-            'acl' => function ($sm) {
-                $config = $sm->get('config');
-                return new Permissions\Acl\Acl($config['tss']['authentication']['acl']);
-            },
-
-            CredentialRepository::class => CredentialRepositoryFactory::class,
-            Session::class => SessionFactory::class,
-            AuthenticationService::class => AuthenticationServiceFactory::class,
-        ],
+            Authentication\Adapter\CredentialRepository::class => Authentication\Adapter\CredentialRepositoryFactory::class,
+            Authentication\Storage\Session::class => Authentication\Storage\SessionFactory::class,
+            AuthenticationService::class => Authentication\AuthenticationServiceFactory::class,
+            Permissions\Acl\Acl::class => Permissions\Acl\AclFactory::class
+        ]
     ],
 
     'view_manager' => [
@@ -138,7 +124,7 @@ return [
             'TSS\Authentication' => true,
         ],
         'template_path_stack' => [
-            __DIR__ . '/../view',
-        ],
-    ],
+            __DIR__ . '/../view'
+        ]
+    ]
 ];

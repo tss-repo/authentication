@@ -8,7 +8,6 @@ namespace TSS\Authentication\Authentication\Adapter;
 
 use DoctrineModule\Authentication\Adapter\ObjectRepository;
 use TSS\Authentication\Options\Authentication as AuthenticationOptions;
-use Zend\Authentication\Adapter\AbstractAdapter;
 use Zend\Authentication\Adapter\Exception;
 use Zend\Authentication\Result as AuthenticationResult;
 
