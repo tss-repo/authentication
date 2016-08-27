@@ -74,6 +74,29 @@ return [
                         ],
                         'priority' => 5
                     ],
+                    'password-recover' => [
+                        'type' => Segment::class,
+                        'options' => [
+                            'route' => '/password-recover/:token',
+                            'constraints' => [
+                                'token' => '[a-zA-Z0-9]*'
+                            ],
+                            'defaults' => [
+                                'action' => 'password-recover'
+                            ]
+                        ],
+                        'priority' => 9
+                    ],
+                    'recover' => [
+                        'type' => Literal::class,
+                        'options' => [
+                            'route' => '/recover',
+                            'defaults' => [
+                                'action' => 'recover'
+                            ]
+                        ],
+                        'priority' => 9
+                    ],
                     'signin' => [
                         'type' => Literal::class,
                         'options' => [

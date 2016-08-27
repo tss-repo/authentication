@@ -12,10 +12,6 @@ namespace TSS\Authentication\Entity;
  */
 interface CredentialInterface
 {
-    const TYPE_PASSWORD = 1;
-    const TYPE_FACEBOOK = 2;
-    const TYPE_API_TOKEN = 3;
-
     /**
      * @return int
      */
@@ -25,6 +21,16 @@ interface CredentialInterface
      * @param int $id
      */
     public function setId($id);
+
+    /**
+     * @return UserInterface
+     */
+    public function getUser();
+
+    /**
+     * @param UserInterface $user
+     */
+    public function setUser($user);
 
     /**
      * @return int

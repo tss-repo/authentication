@@ -9,6 +9,12 @@ return [
                 'signup' => 'tss/authentication/signup',
             ],
             'routes' => [
+                'home' => [
+                    'name' => 'home',
+                    'params' => [],
+                    'options' => [],
+                    'reuseMatchedParams' => false
+                ],
                 'redirect' => [
                     'name' => 'home',
                     'params' => [],
@@ -23,6 +29,18 @@ return [
                 ],
                 'confirm-email' => [
                     'name' => 'tssAuthentication/confirm-email',
+                    'params' => [],
+                    'options' => [],
+                    'reuseMatchedParams' => false
+                ],
+                'password-recover' => [
+                    'name' => 'tssAuthentication/password-recover',
+                    'params' => [],
+                    'options' => [],
+                    'reuseMatchedParams' => false
+                ],
+                'recover' => [
+                    'name' => 'tssAuthentication/recover',
                     'params' => [],
                     'options' => [],
                     'reuseMatchedParams' => false
@@ -58,6 +76,25 @@ return [
                     'reuseMatchedParams' => false
                 ],
             ],
+            'config' => [
+                'identityClass' => '',
+                'identityProperty' => 'username',
+                'credentialClass' => '',
+                'credentialProperty' => 'value',
+                'credentialIdentityProperty' => 'user',
+                'credentialType' => \TSS\Authentication\Entity\AbstractCredential::TYPE_PASSWORD,
+                'credential_callable' => function (\TSS\Authentication\Entity\UserInterface $user, \TSS\Authentication\Entity\CredentialInterface $credential) {
+                    if ($user->getId() == $credential->getUser()->getId() && $user->isSignAllowed()) {
+                        return true;
+                    } else {
+                        return false;
+                    }
+                },
+                'identityEmail' => 'email',
+                'roleClass' => '',
+                'roleDefault' => 2,
+            ],
+
 
             'acl' => [
                 'default_role' => 'Guest',
@@ -74,6 +111,8 @@ return [
                         'TSS\Authentication\Controller\Auth' => [
                             'authenticate' => ['Guest'],
                             'confirm-email' => ['Guest'],
+                            'password-recover' => ['Guest'],
+                            'recover' => ['Guest'],
                             'signin' => ['Guest'],
                             'signout' => ['Guest'],
                             'signup' => ['Guest'],

@@ -29,6 +29,7 @@ class PasswordChangeForm extends Form
             'options' => [
                 'label' => _('Current Password'),
                 'label_attributes' => ['class' => 'control-label'],
+                'div' => ['class' => 'form-group', 'class_error' => 'has-error'],
             ],
         ]);
 
@@ -42,6 +43,7 @@ class PasswordChangeForm extends Form
             'options' => [
                 'label' => _('New Password'),
                 'label_attributes' => ['class' => 'control-label'],
+                'div' => ['class' => 'form-group', 'class_error' => 'has-error'],
             ],
         ]);
 
@@ -55,6 +57,7 @@ class PasswordChangeForm extends Form
             'options' => [
                 'label' => _('Confirm Password'),
                 'label_attributes' => ['class' => 'control-label'],
+                'div' => ['class' => 'form-group', 'class_error' => 'has-error'],
             ],
         ]);
 

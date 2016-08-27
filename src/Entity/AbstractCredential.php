@@ -17,6 +17,10 @@ use TSS\DoctrineUtil\Entity\AbstractEntity;
  */
 abstract class AbstractCredential extends AbstractEntity implements CredentialInterface
 {
+    const TYPE_PASSWORD = 1;
+    const TYPE_FACEBOOK = 2;
+    const TYPE_API_TOKEN = 3;
+
     /**
      * @var int
      *

@@ -37,6 +37,7 @@ class SignupForm extends Form
             'options' => [
                 'label' => 'Username',
                 'label_attributes' => ['class' => 'control-label'],
+                'div' => ['class' => 'form-group', 'class_error' => 'has-error'],
             ],
         ]);
 
@@ -50,6 +51,7 @@ class SignupForm extends Form
             'options' => [
                 'label' => 'Email',
                 'label_attributes' => ['class' => 'control-label'],
+                'div' => ['class' => 'form-group', 'class_error' => 'has-error'],
             ],
         ]);
 
@@ -63,6 +65,7 @@ class SignupForm extends Form
             'options' => [
                 'label' => 'Password',
                 'label_attributes' => ['class' => 'control-label'],
+                'div' => ['class' => 'form-group', 'class_error' => 'has-error'],
             ],
         ]);
 
@@ -76,6 +79,7 @@ class SignupForm extends Form
             'options' => [
                 'label' => _('Confirm Password'),
                 'label_attributes' => ['class' => 'control-label'],
+                'div' => ['class' => 'form-group', 'class_error' => 'has-error'],
             ],
         ]);
 
@@ -84,7 +88,8 @@ class SignupForm extends Form
             'type' => 'checkbox',
             'options' => [
                 'label' => _('I have read and accepted the terms of use.'),
-                'label_attributes' => ['class' => 'checkbox-inline'],
+                'label_options' => ['always_wrap' => true],
+                'div' => ['class' => 'checkbox', 'class_error' => 'has-error'],
             ],
         ]);
 

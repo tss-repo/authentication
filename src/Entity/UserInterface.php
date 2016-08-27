@@ -95,6 +95,16 @@ interface UserInterface
     public function setSignAllowed($signAllowed);
 
     /**
+     * @return RoleInterface
+     */
+    public function getRole();
+
+    /**
+     * @param RoleInterface $role
+     */
+    public function setRole($role);
+
+    /**
      * @return string
      */
     public function getRoleName();

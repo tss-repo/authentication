@@ -4,7 +4,7 @@ $this->headTitle($title);
 ?>
 
 <div class="signin-img text-center">
-    <a class="signin-logo" href="<?php echo $this->url('home'); ?>">
+    <a class="signin-logo" href="<?php echo $this->url($routes['home']['name'], $routes['home']['params'], $routes['home']['options'], $routes['home']['reuseMatchedParams']); ?>">
         <img src="<?php echo $this->basePath('img/logo128.png') ?>" alt="<?php echo $this->translate('Home'); ?>"/>
     </a>
 </div>
@@ -32,7 +32,11 @@ $this->headTitle($title);
                 <div class="col-xs-6">
                     <div><?php echo $this->translate('Already have an account?'); ?></div>
 
-                    <strong><a href="<?php echo $this->url($authRoutes['signin']['name']);?>"><?php echo $this->translate('Please login'); ?></a></strong>
+                    <strong>
+                        <a href="<?php echo $this->url($routes['signin']['name'], $routes['signin']['params'], $routes['signin']['options'], $routes['signin']['reuseMatchedParams']); ?>">
+                            <?php echo $this->translate('Please login'); ?>
+                        </a>
+                    </strong>
                 </div>
             </div>
         </fieldset>

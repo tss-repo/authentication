@@ -62,7 +62,7 @@ class AccountController extends AbstractActionController
 
             if ($form->isValid()) {
                 if ($user->getAvatar()['error'] == 0) {
-                    $user->setAvatar($this->imageThumb()->process($user->getAvatar()));
+                    $user->setAvatar($this->tssImageThumb()->process($user->getAvatar()));
                 } else {
                     $user->setAvatar($avatar);
                 }

@@ -29,6 +29,7 @@ class SigninForm extends Form
             'options' => [
                 'label' => _('Username'),
                 'label_attributes' => ['class' => 'control-label'],
+                'div' => ['class' => 'form-group', 'class_error' => 'has-error'],
             ],
         ]);
 
@@ -42,6 +43,7 @@ class SigninForm extends Form
             'options' => [
                 'label' => _('Password'),
                 'label_attributes' => ['class' => 'control-label'],
+                'div' => ['class' => 'form-group', 'class_error' => 'has-error'],
             ],
         ]);
 
@@ -50,7 +52,8 @@ class SigninForm extends Form
             'type' => 'checkbox',
             'options' => [
                 'label' => _('Remember-me'),
-                'label_attributes' => ['class' => 'checkbox-inline'],
+                'label_options' => ['always_wrap' => true],
+                'div' => ['class' => 'checkbox', 'class_error' => 'has-error'],
             ],
         ]);
 

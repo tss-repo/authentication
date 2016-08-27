@@ -43,6 +43,7 @@ class UserFieldset extends Fieldset
             'options' => [
                 'label' => _('First Name'),
                 'label_attributes' => ['class' => 'control-label'],
+                'div' => ['class' => 'form-group', 'class_error' => 'has-error'],
             ],
         ]);
 
@@ -56,6 +57,7 @@ class UserFieldset extends Fieldset
             'options' => [
                 'label' => _('Last Name'),
                 'label_attributes' => ['class' => 'control-label'],
+                'div' => ['class' => 'form-group', 'class_error' => 'has-error'],
             ],
         ]);
 
@@ -69,6 +71,7 @@ class UserFieldset extends Fieldset
             'options' => [
                 'label' => _('Username'),
                 'label_attributes' => ['class' => 'control-label'],
+                'div' => ['class' => 'form-group', 'class_error' => 'has-error'],
             ],
         ]);
 
@@ -82,6 +85,7 @@ class UserFieldset extends Fieldset
             'options' => [
                 'label' => _('Email'),
                 'label_attributes' => ['class' => 'control-label'],
+                'div' => ['class' => 'form-group', 'class_error' => 'has-error'],
             ],
         ]);
 
@@ -95,6 +99,7 @@ class UserFieldset extends Fieldset
             'options' => [
                 'label' => 'Password',
                 'label_attributes' => ['class' => 'control-label'],
+                'div' => ['class' => 'form-group', 'class_error' => 'has-error'],
             ],
         ]);
 
@@ -108,6 +113,7 @@ class UserFieldset extends Fieldset
             'options' => [
                 'label' => _('Avatar'),
                 'label_attributes' => ['class' => 'control-label'],
+                'div' => ['class' => 'form-group', 'class_error' => 'has-error'],
             ],
         ]);
 
@@ -121,6 +127,7 @@ class UserFieldset extends Fieldset
             'options' => [
                 'label' => _('Gender'),
                 'label_attributes' => ['class' => 'control-label'],
+                'div' => ['class' => 'form-group', 'class_error' => 'has-error'],
                 'value_options' => [
                     AbstractUser::GENDER_FEMALE => _('Female'),
                     AbstractUser::GENDER_MALE => _('Male')
@@ -138,6 +145,7 @@ class UserFieldset extends Fieldset
             'options' => [
                 'label' => _('Birthday'),
                 'label_attributes' => ['class' => 'control-label'],
+                'div' => ['class' => 'form-group', 'class_error' => 'has-error'],
             ],
         ]);
 
@@ -151,6 +159,7 @@ class UserFieldset extends Fieldset
             'options' => [
                 'label' => _('Bio'),
                 'label_attributes' => ['class' => 'control-label'],
+                'div' => ['class' => 'form-group', 'class_error' => 'has-error'],
             ],
         ]);
     }
