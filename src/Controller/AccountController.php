@@ -28,6 +28,11 @@ class AccountController extends AbstractActionController
     protected $config;
 
     /**
+     * @var array
+     */
+    protected $routes;
+
+    /**
      * AccountController constructor.
      * @param EntityManagerInterface $entityManager
      * @param array $config
@@ -35,21 +40,37 @@ class AccountController extends AbstractActionController
     public function __construct(EntityManagerInterface $entityManager, array $config)
     {
         $this->entityManager = $entityManager;
-        $this->config = $config;
+        $this->setConfig($config);
+    }
+
+    /**
+     * @return array
+     */
+    public function getConfig()
+    {
+        return $this->config;
+    }
+
+    /**
+     * @param array $config
+     */
+    public function setConfig($config)
+    {
+
+        $this->routes = $config['tss']['authentication']['routes'];
+        $this->config = $config['tss']['authentication']['config'];
     }
 
     public function indexAction()
     {
-        $routes = $this->config['tss']['authentication']['routes'];
         /** @var UserInterface $user */
         $user = $this->identity();
 
-        $form = new UserForm($this->entityManager, 'user', $this->config['tss']['authentication']['config']);
-        $form->setInputFilter(new ProfileFilter($this->entityManager, $this->config['tss']['authentication']['config']));
-        $form->setAttribute('action', $this->url()->fromRoute($routes['account']['name'], $routes['account']['params'], $routes['account']['options'], $routes['account']['reuseMatchedParams']));
+        $form = new UserForm($this->entityManager, 'user', $this->config);
+        $form->setInputFilter(new ProfileFilter($this->entityManager, $this->config));
+        $form->setAttribute('action', $this->url()->fromRoute($this->routes['account']['name'], $this->routes['account']['params'], $this->routes['account']['options'], $this->routes['account']['reuseMatchedParams']));
         $form->bind($user);
         $form->get('submit')->setValue(_('Update'));
-        $form->prepare();
 
         $avatar = $user->getAvatar();
 
@@ -68,16 +89,17 @@ class AccountController extends AbstractActionController
                 }
                 $this->entityManager->flush();
                 $this->flashMessenger()->addInfoMessage(_('Profile updated with success!'));
-                return $this->redirect()->toRoute($routes['account']['name'], $routes['account']['params'], $routes['account']['options'], $routes['account']['reuseMatchedParams']);
+                return $this->redirect()->toRoute($this->routes['account']['name'], $this->routes['account']['params'], $this->routes['account']['options'], $this->routes['account']['reuseMatchedParams']);
             } else {
                 $this->flashMessenger()->addErrorMessage(_('Form with errors!'));
             }
         }
 
+        $form->prepare();
         $viewModel = new ViewModel(array(
             'form' => $form,
             'user' => $user,
-            'routes' => $routes
+            'routes' => $this->routes
         ));
 
         return $viewModel;
@@ -85,16 +107,12 @@ class AccountController extends AbstractActionController
 
     public function passwordChangeAction()
     {
-        $routes = $this->config['tss']['authentication']['routes'];
-        $auth = $this->config['tss']['authentication']['config'];
-
-        $credentialRepo = $this->entityManager->getRepository($auth['credentialClass']);
+        $credentialRepo = $this->entityManager->getRepository($this->config['credentialClass']);
         /** @var UserInterface $user */
         $user = $this->identity();
 
         $form = new PasswordChangeForm();
-        $form->setAttribute('action', $this->url()->fromRoute($routes['password-change']['name'], $routes['password-change']['params'], $routes['password-change']['options'], $routes['password-change']['reuseMatchedParams']));
-        $form->prepare();
+        $form->setAttribute('action', $this->url()->fromRoute($this->routes['password-change']['name'], $this->routes['password-change']['params'], $this->routes['password-change']['options'], $this->routes['password-change']['reuseMatchedParams']));
 
         /** @var Request $request */
         $request = $this->getRequest();
@@ -104,7 +122,7 @@ class AccountController extends AbstractActionController
 
             if ($form->isValid()) {
                 $data = $form->getData();
-                $credential = $credentialRepo->findOneBy(array($auth['credentialIdentityProperty'] => $user, 'type' => $auth['credentialType']));
+                $credential = $credentialRepo->findOneBy(array($this->config['credentialIdentityProperty'] => $user, 'type' => $this->config['credentialType']));
                 $passwordOld = sha1(sha1($data['password-old']));
                 $passwordNew = sha1(sha1($data['password-new']));
                 $password = $credential->getValue();
@@ -122,10 +140,11 @@ class AccountController extends AbstractActionController
             }
         }
 
+        $form->prepare();
         $viewModel = new ViewModel(array(
             'form' => $form,
             'user' => $user,
-            'routes' => $routes
+            'routes' => $this->routes
         ));
 
         return $viewModel;

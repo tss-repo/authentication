@@ -4,7 +4,9 @@ return [
     'tss' => [
         'authentication' => [
             'layout' => 'tss/authentication/layout/default',
-            'template' => [
+            'templates' => [
+                'password-recover' => 'tss/authentication/password-recover',
+                'recover' => 'tss/authentication/recover',
                 'signin' => 'tss/authentication/signin',
                 'signup' => 'tss/authentication/signup',
             ],
@@ -93,6 +95,7 @@ return [
                 'identityEmail' => 'email',
                 'roleClass' => '',
                 'roleDefault' => 2,
+                'signAllowed' => false
             ],
 
 
