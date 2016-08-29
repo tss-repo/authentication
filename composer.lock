@@ -4,8 +4,8 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file",
         "This file is @generated automatically"
     ],
-    "hash": "20779faa1070319d8fbb715d3b562656",
-    "content-hash": "f7c0fdf9711b510a7728b1c51a5ea6d5",
+    "hash": "f90738ee74e9842c987bb8a700e2322c",
+    "content-hash": "d61072e828feb510b4d2d1e977e756cb",
     "packages": [
         {
             "name": "container-interop/container-interop",
@@ -2288,16 +2288,16 @@
         },
         {
             "name": "zetta-code/tss-bootstrap",
-            "version": "dev-develop",
+            "version": "0.2.1",
             "source": {
                 "type": "git",
                 "url": "https://github.com/zetta-code/tss-bootstrap.git",
-                "reference": "9dc7ad480b7f6129004bac7e9d6af3e21d8b1d31"
+                "reference": "0e247faec4613c4c73cfa36cd202903fee6cbbfe"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/zetta-code/tss-bootstrap/zipball/9dc7ad480b7f6129004bac7e9d6af3e21d8b1d31",
-                "reference": "9dc7ad480b7f6129004bac7e9d6af3e21d8b1d31",
+                "url": "https://api.github.com/repos/zetta-code/tss-bootstrap/zipball/0e247faec4613c4c73cfa36cd202903fee6cbbfe",
+                "reference": "0e247faec4613c4c73cfa36cd202903fee6cbbfe",
                 "shasum": ""
             },
             "require": {
@@ -2342,25 +2342,25 @@
                 "tss",
                 "zf2"
             ],
-            "time": "2016-08-24 19:58:28"
+            "time": "2016-08-29 19:00:29"
         },
         {
             "name": "zetta-code/tss-doctrineutil",
-            "version": "dev-master",
+            "version": "0.1.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/zetta-code/tss-doctrineutil.git",
-                "reference": "d1dc4a8794a13fe0ccd588f53ba5cf978de0c823"
+                "reference": "60a25e54ceb45da6098e398ea8211cbaaf15f783"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/zetta-code/tss-doctrineutil/zipball/d1dc4a8794a13fe0ccd588f53ba5cf978de0c823",
-                "reference": "d1dc4a8794a13fe0ccd588f53ba5cf978de0c823",
+                "url": "https://api.github.com/repos/zetta-code/tss-doctrineutil/zipball/60a25e54ceb45da6098e398ea8211cbaaf15f783",
+                "reference": "60a25e54ceb45da6098e398ea8211cbaaf15f783",
                 "shasum": ""
             },
             "require": {
                 "doctrine/doctrine-orm-module": "dev-master",
-                "php": "^5.5 || ^7.0",
+                "php": "^5.6 || ^7.0",
                 "zendframework/zend-stdlib": "^3.0"
             },
             "type": "library",
@@ -2395,7 +2395,7 @@
                 "util",
                 "zf3"
             ],
-            "time": "2016-08-08 11:22:05"
+            "time": "2016-08-27 13:37:50"
         }
     ],
     "packages-dev": [
@@ -2531,9 +2531,7 @@
     "aliases": [],
     "minimum-stability": "dev",
     "stability-flags": {
-        "doctrine/doctrine-orm-module": 20,
-        "zetta-code/tss-bootstrap": 20,
-        "zetta-code/tss-doctrineutil": 20
+        "doctrine/doctrine-orm-module": 20
     },
     "prefer-stable": true,
     "prefer-lowest": false,

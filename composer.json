@@ -4,7 +4,7 @@
   "description": "TSS/Authentication",
   "license": "MIT",
   "keywords": [
-    "zf2",
+    "zf3",
     "tss",
     "authentication"
   ],
@@ -31,8 +31,8 @@
     "zendframework/zend-permissions-acl": "^2.6",
     "zendframework/zend-mvc-plugin-flashmessenger": "^1.0",
     "doctrine/doctrine-orm-module": "dev-master",
-    "zetta-code/tss-bootstrap": "dev-develop",
-    "zetta-code/tss-doctrineutil": "dev-master"
+    "zetta-code/tss-bootstrap": "^0.2.1",
+    "zetta-code/tss-doctrineutil": "^0.1.0"
   },
   "require-dev": {
     "zendframework/zend-mvc-i18n": "^1.0"
