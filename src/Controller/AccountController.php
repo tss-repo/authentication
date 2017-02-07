@@ -131,7 +131,7 @@ class AccountController extends AbstractActionController
                     $credential->setValue($passwordNew);
                     $this->entityManager->flush();
                     $this->flashMessenger()->addSuccessMessage(_('Your password has been changed successfully!'));
-                    return $this->redirect()->toRoute('tssAuthentication/default', array('controller' => 'account'));
+                    return $this->redirect()->toRoute($this->routes['account']['name'], $this->routes['account']['params'], $this->routes['account']['options'], $this->routes['account']['reuseMatchedParams']);
                 } else {
                     $this->flashMessenger()->addErrorMessage(_('Your current password is incorrect.'));
                 }
