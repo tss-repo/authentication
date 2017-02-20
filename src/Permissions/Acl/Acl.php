@@ -51,6 +51,10 @@ class Acl extends ZendAcl
      */
     public function getDefaultRole()
     {
+        if (is_string($this->defaultRole)) {
+            $this->defaultRole = new GenericRole($this->defaultRole);
+        }
+
         return $this->defaultRole;
     }
 

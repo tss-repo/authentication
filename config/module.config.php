@@ -22,6 +22,15 @@ return [
         ]
     ],
 
+    'controller_plugins' => [
+        'aliases' => [
+            'isAllowed' => Controller\Plugin\IsAllowedPlugin::class,
+        ],
+        'factories' => [
+            Controller\Plugin\IsAllowedPlugin::class => Controller\Plugin\Factory\IsAllowedPlugin::class,
+        ]
+    ],
+
     'router' => [
         'routes' => [
             'tssAuthentication' => [
@@ -139,6 +148,15 @@ return [
             Authentication\Storage\Session::class => Authentication\Storage\SessionFactory::class,
             AuthenticationService::class => Authentication\AuthenticationServiceFactory::class,
             Permissions\Acl\Acl::class => Permissions\Acl\AclFactory::class
+        ]
+    ],
+
+    'view_helpers' => [
+        'aliases' => [
+            'isAllowed' => View\Helper\IsAllowedHelper::class,
+        ],
+        'factories' => [
+            View\Helper\IsAllowedHelper::class => View\Helper\Factory\IsAllowedHelper::class,
         ]
     ],
 
